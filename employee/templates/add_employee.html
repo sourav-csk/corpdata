@@ -1,0 +1,13 @@
+<!-- employee/templates/employee/add_employee.html -->
+{% extends "base.html" %}
+{% block content %}
+
+<h4 class="mb-3">Add New Employee</h4>
+<form method="post" class="border p-3 bg-white">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'employee_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}

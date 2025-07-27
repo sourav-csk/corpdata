@@ -1,0 +1,62 @@
+<!-- employee/templates/employee/employee_list.html -->
+{% extends "base.html" %}
+{% block content %}
+
+<form method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Search by name or department" value="{{ query }}">
+        
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="{% url 'add_employee' %}" class="btn btn-success ms-2">+ Add Employee</a>
+
+    </div>
+</form>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Profile</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Department</th>
+            <th>Salary</th>
+            <th>Joining Date</th>
+            <th>Resume</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for emp in employees %}
+            <tr>
+                <td>
+                    {% if emp.profile_picture %}
+                        <img src="{{ emp.profile_picture.url }}" alt="Profile" width="60" height="60" style="object-fit: cover; border-radius: 50%;">
+                    {% else %}
+                        <span>No image</span>
+                    {% endif %}
+                </td>
+                <td>{{ emp.first_name }} {{ emp.last_name }}</td>
+                <td>{{ emp.email }}</td>
+                <td>{{ emp.phone_number}}</td>
+                <td>{{ emp.department }}</td>
+                <td>₹{{ emp.salary }}</td>
+                <td>{{ emp.date_of_joining }}</td>
+                <td>
+                    {% if emp.resume %}
+                        <a href="{{ emp.resume.url }}" target="_blank">View Resume</a>
+                    {% else %}
+                        No resume uploaded
+                    {% endif %}
+                <td>
+                    <a href="{% url 'edit_employee' emp.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'delete_employee' emp.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="7" class="text-center">No employees found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
